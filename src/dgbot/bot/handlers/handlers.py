@@ -1,20 +1,15 @@
 from aiogram import F, Router
 from aiogram.filters import CommandStart
 from aiogram.types import Message, CallbackQuery
-from dgbot.bot.keyboards.main_keyboard import MainKeyboard
-from dgbot.bot.keyboards.site_keyboard import SiteKeyboard
-from dgbot.bot.keyboards.app_keyboard import AppKeyboard
-import dgbot.backend.services.user_service as us
-import dgbot.backend.services.coupon_service as cs
 from datetime import date
-
-
+from dgbot.bot.keyboards import MainKeyboard, SiteKeyboard, AppKeyboard
+from dgbot.backend.services import set_user, get_coupon_by_date, day_check
 
 router = Router()
 
 @router.message(CommandStart())
 async def cmd_start(message: Message):
-    await us.set_user(message.from_user.id)
+    await set_user(message.from_user.id)
     await message.answer("Добро пожаловать в бота кафе Dolce Goose!", reply_markup=await MainKeyboard.get_main_keyboard())
 
 @router.message(F.text == 'Перейти на наш сайт')
@@ -38,8 +33,8 @@ async def about_us(message: Message):
 @router.message(F.text == 'Получить купон')
 async def get_coupon(message:Message):
     today = date.today()
-    coupons = await cs.get_coupon_by_date(today)
-    check_th_sund = cs.day_check(today)
+    coupons = await get_coupon_by_date(today)
+    check_th_sund = day_check(today)
     response_parts = []
 
     if coupons:

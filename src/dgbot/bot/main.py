@@ -1,7 +1,7 @@
 import asyncio
 import logging
 from aiogram import Bot, Dispatcher
-from dgbot.core.config import config
+from dgbot.core import config
 from dgbot.bot.handlers.handlers import router
 
 logging.basicConfig(level=logging.INFO)
