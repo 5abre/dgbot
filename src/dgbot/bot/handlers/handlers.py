@@ -38,19 +38,20 @@ async def about_us(message: Message):
 @router.message(F.text == 'Получить купон')
 async def get_coupon(message:Message):
     today = date.today()
-    coupons = await cs.get_coupon_by_date(date.today())
-    duet_active = cs.is_duet_day(today)
+    coupons = await cs.get_coupon_by_date(today)
+    check_th_sund = cs.day_check(today)
     response_parts = []
 
     if coupons:
         coupon_names = [coupon.name for coupon in coupons]
         response_parts.append("Ваша скидка в 26% дейсвует сегодня на:\n"+"\n".join(f"- {name}" for name in coupon_names))
     else:
-        await message.answer("На сегодня купонов нет.")
-        return
+        response_parts.append("На сегодня купонов нет.")
 
-    if duet_active:
+    if check_th_sund == "thursday":
         response_parts.append("\nСегодня также действует акция Дуэт, при покупке десерта с витрины - кофе 0.3 или чай 0.4 за 150 рублей!")
+    elif check_th_sund == "sunday":
+        response_parts.append("\nСегодня также действует акция 1+1, при покупке позиции из меню вторая за 50% стоимости!")
 
     final_response = "\n".join(response_parts)
     await message.answer(final_response)

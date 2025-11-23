@@ -13,7 +13,13 @@ async def get_coupon_by_date(target_date: date) -> list[Coupon]:
          coupons = result.scalars().all()
          return coupons
 
-def is_duet_day(check_date: date = None) -> bool:
+def day_check(check_date: date = None) -> bool:
     if check_date is None:
         check_date = date.today()
-    return check_date.weekday() == 3
+
+    weekday = check_date.weekday()
+
+    if weekday == 3:
+        return "thursday"
+    elif weekday == 6:
+        return "sunday"
