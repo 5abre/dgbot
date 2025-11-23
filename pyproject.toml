@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "dgbot"
+version = "0.1.0"
+description = ""
+authors = ["5abre <chloregonprice@gmail.com>"]
+readme = "README.md"
+packages = [{include = "dgbot", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+aiogram = "^3.22.0"
+sqlalchemy = "^2.0.44"
+aiosqlite = "^0.21.0"
+dotenv = "^0.9.9"
+logging = "^0.4.9.6"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
