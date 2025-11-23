@@ -1,6 +1,6 @@
 from aiogram import F, Router
 from aiogram.filters import CommandStart
-from aiogram.types import Message, CallbackQuery
+from aiogram.types import Message
 from datetime import date
 from dgbot.bot.keyboards import MainKeyboard, SiteKeyboard, AppKeyboard
 from dgbot.backend.services import set_user, get_coupon_by_date, day_check
@@ -10,15 +10,18 @@ router = Router()
 @router.message(CommandStart())
 async def cmd_start(message: Message):
     await set_user(message.from_user.id)
-    await message.answer("Добро пожаловать в бота кафе Dolce Goose!", reply_markup=await MainKeyboard.get_main_keyboard())
+    await message.answer("Добро пожаловать в бота кафе Dolce Goose!",
+                        reply_markup=await MainKeyboard.get_main_keyboard())
 
 @router.message(F.text == 'Перейти на наш сайт')
 async def get_site(message: Message):
-    await message.answer("Вот ссылка на наш сайт:", reply_markup=SiteKeyboard.get_site_keyboard())
+    await message.answer("Вот ссылка на наш сайт:", 
+                        reply_markup=SiteKeyboard.get_site_keyboard())
 
 @router.message(F.text == 'Скачать приложение')
 async def get_app(message: Message):
-    await message.answer("Вот ссылка на наше приложение:", reply_markup=AppKeyboard.get_app_keyboard())
+    await message.answer("Вот ссылка на наше приложение:", 
+                        reply_markup=AppKeyboard.get_app_keyboard())
 
 @router.message(F.text == "Контакты")
 async def get_contacts(message: Message):
