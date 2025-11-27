@@ -1,6 +1,5 @@
 from aiogram import Router, F
 from aiogram.types import Message
-from sqlalchemy.ext.asyncio import AsyncSession
 from datetime import date
 
 from dgbot.backend.services import (get_coupon_by_date, day_check, 
