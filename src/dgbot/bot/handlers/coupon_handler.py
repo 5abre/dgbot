@@ -2,27 +2,16 @@ from aiogram import Router, F
 from aiogram.types import Message
 from datetime import date
 
-from dgbot.backend.services import (get_coupon_by_date, day_check, 
-                                    get_user_by_tg_id, upd_user)
-from dgbot.bot.keyboards import ContactKeyboard, MainKeyboard
+from dgbot.backend.services import CouponService, UserService
+from dgbot.bot.keyboards import MainKeyboard
 
 cp_router = Router()
 
-@cp_router.message(F.text == 'Получить купон')
-async def get_coupon(message:Message):
-    user = await get_user_by_tg_id(message.from_user.id)
-
-    if not user.phone_number:
-        await message.answer(
-            "Для получения купонов необходимо зарегистрироваться!\n"
-            "Пожалуйста, поделитесь вашим контактом:",
-            reply_markup=ContactKeyboard.get_contact_kb()
-            )
-        return
-    
+@cp_router.message(F.text == 'Узнать акции на сегодня')
+async def get_coupon(message:Message):    
     today = date.today()
-    coupons = await get_coupon_by_date(today)
-    check_th_sund = day_check(today)
+    coupons = await CouponService.get_coupon_by_date(today)
+    check_th_sund = CouponService.day_check(today)
     response_parts = []
 
     if coupons:
@@ -39,13 +28,12 @@ async def get_coupon(message:Message):
     final_response = "\n".join(response_parts)
     await message.answer(final_response)
 
-
 @cp_router.message(F.contact)
 async def handle_contact(message: Message):
     contact = message.contact
 
     if contact.user_id == message.from_user.id:
-        user = await upd_user(
+        user = await UserService.upd_user(
             tg_id=message.from_user.id,
             phone_number=contact.phone_number
         )
@@ -53,41 +41,8 @@ async def handle_contact(message: Message):
     if user:
         await message.answer(
             f"Регистрация успешно завершена! Ваш номер телефона:\n{user.phone_number}",
-            reply_markup=await MainKeyboard.get_main_keyboard()
+            reply_markup=MainKeyboard.get_main_keyboard()
         )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# @register_router.message(Command("send_contact"))
-# async def get_contact(message: Message):
-#     await message.answer(
-#         "Поделитесь вашим контактом.",
-#         reply_markup=ContactKeyboard.get_contact_kb()
-#     )
 
 # @register_router.message(F.contact)
 # async def handle_contact(message: Message):

@@ -1,10 +1,10 @@
-from aiogram.types import (ReplyKeyboardMarkup, KeyboardButton)
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
 
 class MainKeyboard:
     @staticmethod
-    async def get_main_keyboard() -> ReplyKeyboardMarkup:
-        return ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text='Получить купон')],
+    def get_main_keyboard() -> ReplyKeyboardMarkup:
+      return ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text='Узнать акции на сегодня')],
                                                       [KeyboardButton(text='Скачать приложение'),
                                                         KeyboardButton(text='Перейти на наш сайт')],
                                                         [KeyboardButton(text='Контакты'),

@@ -2,7 +2,7 @@ import asyncio
 import logging
 from aiogram import Bot, Dispatcher
 from dgbot.core import config
-from dgbot.bot.handlers import cp_router, start_router, router
+from dgbot.bot.handlers import cp_router, start_router, router, roullete_router
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -14,6 +14,7 @@ async def main():
     dp.include_router(start_router)
     dp.include_router(router)
     dp.include_router(cp_router)
+    dp.include_router(roullete_router)
 
     
     try:
