@@ -14,7 +14,6 @@ async def main():
     dp.include_router(start_router)
     dp.include_router(router)
     dp.include_router(cp_router)
-    dp.include_router(roullete_router)
 
     
     try:
